@@ -1,0 +1,45 @@
+<?php
+
+require_once 'Jm/Autoloader.php';
+Jm_Autoloader::singleton()->prependPath('lib/php');
+
+$stdout = new Jm_AnsiTerminal();
+
+for($a = 0; $a < 3; $a++) {
+    $s = rand(1, 50000);
+    $stdout->savecursor();
+    $total = rand(1,100);
+    for($i = 0; $i <= $total; $i++) {
+        if($stdout->isatty()) {
+            $stdout->eraseln();
+            $stdout->restorecursor();
+            $stdout->write('importing: ');
+            progressbar($stdout, $i, $total, 90);
+            printf("  %s/%s", $i, $total);
+        } else {
+            printf("importing: %s/%s", $i, $total);
+            echo PHP_EOL;
+        }
+        usleep($s);
+    }
+    echo PHP_EOL;
+}
+
+
+/**
+ *
+ */
+function progressbar($terminal, $now, $total, $w=35) {
+    global $stdout;
+    $stdout->write('[', 'fg:white,td:light');
+    $n = floor($now * $w / $total);
+
+    $stdout->write(str_repeat('+', $n), 'fg:green,td:light');
+    if($n < $w) {
+        $stdout->write(']', 'fg:green,td:light');
+        $stdout->write(str_repeat('-', $w - $n -1), 'fg:red:td:light');
+    }
+
+    $stdout->write(']', 'fg:white,td:light');
+}
+
