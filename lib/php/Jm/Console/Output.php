@@ -45,21 +45,6 @@
  * @link      http://www.metashock.de/
  * @since     0.3.0
  */
-/**
- * This package is a wrapper for the functionality of an ANSI terminal.
- * Auto-Fallback to operation on non ANSI terminals is supported.
- *
- * PHP Version >=5.0.0
- * 
- * @category  Console
- * @package   Jm_Console
- * @author    Thorsten Heymann <info@metashock.net>
- * @copyright 2013 Thorsten Heymann
- * @license   http://www.opensource.org/licenses/bsd-license.php BSD
- * @version   GIT: $$GITVERSION$$
- * @link      http://www.metashock.de/pear
- * @since     0.0.0
- */
 /*
  * I realized that when piping to stdin of a php cli script the 
  * global constants STDIN, STDOUT and STDERR won't be defined. I'm
@@ -86,17 +71,7 @@ if(!defined('STDERR')) {
     // @codeCoverageIgnoreEnd
 }
 /**
- * This class represents an ANSI terminal text style with a foreground 
- * text color, a background text color and a text decoration attribute. 
- * It is intended to be used with the following Jm_AnsiTerminal methods:
- *
-
- *
- * <ul>
- *   <li>Jm_Console_Output::write()</li>
- *   <li>Jm_Console_Output::writeln()</li>
- *   <li>Jm_Console_Output::colorize()</li>
- * </ul>
+ * Represents a console output stream.
  *
  * @category  Console
  * @package   Jm_Console
