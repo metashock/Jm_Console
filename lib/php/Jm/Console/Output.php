@@ -504,6 +504,8 @@ class Jm_Console_Output extends Jm_Console_IoStream
             ));
         }
 
+        $this->defaultTextStyle = $style;
+
         return $this;
     }
 
