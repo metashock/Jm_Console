@@ -180,6 +180,8 @@ class Jm_Console
      * @return Jm_Console
      *
      * @throws Jm_Console_Output_Exception if the write operation fails
+     *
+     * @codeCoverageIgnore
      */
     public function errorln($message, $style = NULL) {
         $this->stderr->writeln($message, $style);
@@ -370,19 +372,5 @@ class Jm_Console
         return $this->stdout()->colorize($text, $style);
     }
 
-    /**
-     *
-     */
-    public function progressbar($now, $total, $w=35) {
-        $this->write('[', 'fg:white,td:light');
-        $n = floor($now * $w / $total);
-
-        $this->write(str_repeat('+', $n), 'fg:green,td:light');
-        if($n < $w) {
-            $this->write(']', 'fg:green,td:light');
-            $this->write(str_repeat('-', $w - $n -1), 'fg:red:td:light');
-        }
-        $this->write(']', 'fg:white,td:light');
-    }
 }
 
