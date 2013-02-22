@@ -118,15 +118,17 @@ class Jm_Console_IoStream
      *  @return boolean true if STDOUT goes to a terminal false if not.
      */
     public function assumeIsatty() {
+
+        // this behaviour can be enforced (because of the test suite)
+        if($this->enforceIsatty()) {
+            return TRUE;
+        };
+                
+
         if(!is_null($this->assumeIsattyCached)) {
             return $this->assumeIsattyCached;
         }
 
-        // this behaviour can be enforced (becaus of test suite)
-        if($this->enforceIsatty()) {
-            return $this->assumeIsattyCached = TRUE;
-        };
-                
         // on Windows there is ansicon. A cmd.exe replacemnt
         // that supports ANSI escape sequences
         if (DIRECTORY_SEPARATOR == '\\') {
@@ -202,6 +204,18 @@ class Jm_Console_IoStream
     }
 
 
+
+    /**
+     * @see http://php.net/manual/en/function.fgetc.php
+     */
+    protected function stty($options) {
+        if(!is_executable('/bin/stty')) {
+            return FALSE;
+        }
+        exec($cmd = "/bin/stty $options", $output, $el);
+        $el AND die("exec($cmd) failed");
+        return implode(" ", $output);
+    }
 
 }
 

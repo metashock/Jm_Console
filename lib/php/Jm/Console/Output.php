@@ -146,7 +146,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
         if($this->fd === STDOUT) {
             echo $message;
         } else {
-            $ret = fwrite($this->fd, $message);
+            $ret = @fwrite($this->fd, $message);
             // check for errors
             if($ret === FALSE) {
                 throw new Jm_Console_OutputException(
@@ -191,11 +191,6 @@ class Jm_Console_Output extends Jm_Console_IoStream
         if(!$this->assumeIsatty()) {
             return $this;
         }
-        if(!$this->assumeIsatty()) {
-            // @codeCoverageIgnoreStart
-            return $this;
-            // @codeCoverageIgnoreEnd
-        }
         $this->write("\033[;f\033[2J");
         return $this;
     }
@@ -211,9 +206,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      */
     public function eraseln() {
         if(!$this->assumeIsatty()) {
-            // @codeCoverageIgnoreStart
             return $this;
-            // @codeCoverageIgnoreEnd
         }
         $pattern = "\033[1K";
         $this->write($pattern);
@@ -368,10 +361,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      */
     public function savecursor() {
          if(!$this->assumeIsatty()) {
-            // I see no way to test this reliable
-            // @codeCoverageIgnoreStart
             return $this;
-            // @codeCoverageIgnoreEnd
         }
         $this->write("\033[s");
         return $this;
@@ -534,16 +524,5 @@ class Jm_Console_Output extends Jm_Console_IoStream
         static::writeln(sprintf('assumeIsatty : %s', self::isatty(STDOUT)));
     }
     */
-
-
-    /**
-     * @see http://php.net/manual/en/function.fgetc.php
-     */
-    protected function stty($options) {
-        exec($cmd = "/bin/stty $options", $output, $el);
-        $el AND die("exec($cmd) failed");
-        return implode(" ", $output);
-    }
-   
 }
 

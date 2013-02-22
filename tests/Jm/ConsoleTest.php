@@ -78,6 +78,7 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
 
         // textual representations
         $this->styles[]= "fg:red,bg:blue,td:bold";
+        $this->styles[]= "red,bold";
     }
 
 

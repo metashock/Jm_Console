@@ -7,3 +7,5 @@ build/pdepend
 build/phpdox
 cache.properties
 
+# netbeans folder
+/nbproject
