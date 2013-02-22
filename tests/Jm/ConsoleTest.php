@@ -75,6 +75,9 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
                 }
             }
         }
+
+        // textual representations
+        $this->styles[]= "fg:red,bg:blue,td:bold";
     }
 
 
@@ -86,6 +89,30 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
     protected function getTextStyles() {
         $this->initTextStyles();
         return $this->styles;
+    }
+
+
+    /**
+     * @dataProvider textStyleExceptionProvider
+     *
+     * @expectedException Jm_Console_TextStyleException
+     */
+    public function testTextStyleException($style) {
+        $style = Jm_Console_TextStyle::fromString($style);
+    }
+
+
+    /**
+     * Provides testTextStyleException with invalid data
+     */
+    public function textStyleExceptionProvider() {
+        return array (
+            array('pink'),
+            array('bg:pink'),
+            array('td:big'),
+            array('color:blue'),
+            array('fg:zero')
+        );
     }
 
 
@@ -116,7 +143,11 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($content, $content2);
 
         foreach($this->getTextStyles() as $style) {
-            $message = $style->__toString();
+            if(is_string($style)) {
+                $message = $style;
+            } else {
+                $message = $style->__toString();
+            }
             ob_start();
             $this->console->write($message, $style);
             $content = ob_get_contents();
@@ -156,7 +187,11 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($message, $content);
     
         foreach($this->getTextStyles() as $style) {
-            $message = $style->__toString();
+            if(is_string($style)) {
+                $message = $style;
+            } else {
+                $message = $style->__toString();
+            }
             ob_start();
             $this->console->writeln($message, $style);
             $content = ob_get_contents();
@@ -186,7 +221,7 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
     /**
      * Test the static property getter / setter
      */
-    protected function _testGetSetDefaultTextStyle() {
+    public function testGetSetDefaultTextStyle() {
         $style = new Jm_Console_TextStyle(); 
         $defaultStyle = $this->console->getDefaultTextStyle();
         $this->assertEquals($style, $defaultStyle,

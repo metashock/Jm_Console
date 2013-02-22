@@ -4,7 +4,9 @@
  * @package Jm_Console
  */
 /**
- *
+ * TODO Register SIGWINCH handler
+ * TODO consider to make usage of readline if available
+ * 
  * @package Jm_Console
  */
 class Jm_Console_IoStream

@@ -1,5 +1,51 @@
 <?php
 /**
+ * Jm_Console
+ *
+ * Copyright (c) 2013, Thorsten Heymann <thorsten@metashock.de>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *
+ *   * Neither the name Thorsten Heymann nor the names of his
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * PHP Version >= 5.1.2
+ *
+ * @category  Console
+ * @package   Jm_Console
+ * @author    Thorsten Heymann <thorsten@metashock.de>
+ * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @version   GIT: $$GITVERSION$$
+ * @link      http://www.metashock.de/
+ * @since     0.3.0
+ */
+/**
  * This package is a wrapper for the functionality of an ANSI terminal.
  * Auto-Fallback to operation on non ANSI terminals is supported.
  *
@@ -40,17 +86,26 @@ if(!defined('STDERR')) {
     // @codeCoverageIgnoreEnd
 }
 /**
- * TODO Register SIGWINCH handler
- * TODO consider to make usage of readline if available
+ * This class represents an ANSI terminal text style with a foreground 
+ * text color, a background text color and a text decoration attribute. 
+ * It is intended to be used with the following Jm_AnsiTerminal methods:
  *
- * @category  Terminal
- * @package   Jm_Console_Output
- * @author    Thorsten Heymann <info@metashock.net>
- * @copyright 2012 Thorsten Heymann
- * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+
+ *
+ * <ul>
+ *   <li>Jm_Console_Output::write()</li>
+ *   <li>Jm_Console_Output::writeln()</li>
+ *   <li>Jm_Console_Output::colorize()</li>
+ * </ul>
+ *
+ * @category  Console
+ * @package   Jm_Console
+ * @author    Thorsten Heymann <thorsten@metashock.de>
+ * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
- * @link      http://www.metashock.de/pear
- * @since     0.1.0
+ * @link      http://www.metashock.de/
+ * @since     0.3.0
  */
 class Jm_Console_Output extends Jm_Console_IoStream
 {
@@ -69,6 +124,14 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @var boolean
      */
     protected $ansiEnabled;
+
+
+    /**
+     * The default text style to be used 
+     *
+     * @var Jm_Console_TextStyle
+     */
+    protected $defaultTextStyle;
 
 
     /**
@@ -194,8 +257,17 @@ class Jm_Console_Output extends Jm_Console_IoStream
      */
     public function colorize (
         $message,
-        Jm_Console_TextStyle $style
+        $style
     ) {
+
+        if(is_string($style)) {
+            $style = Jm_Console_TextStyle::fromString($style);
+        } else if (!is_a($style, 'Jm_Console_TextStyle')) {
+            throw new Exception(sprintf(
+                '$style expected to be a Jm_Console_TextStyle or a string. '
+              . '%s found', gettype($style)
+            ));
+        }
 
         // if all style attriubtes set to reset disable styling
         if ($style->getForegroundColor() 
@@ -231,33 +303,6 @@ class Jm_Console_Output extends Jm_Console_IoStream
         return $ansi;
     }
 
-
-    /**
-     * Sets the default text style that should be used when
-     * the style parameter will be omitted in calls to write or writeln(),
-     *
-     * @param Jm_Console_Output_TextStyle $style
-     *
-     * @return Jm_Console_Output
-     */
-    public function setDefaultTextStyle (Jm_Console_Output_TextStyle $style) {
-        $this->textStyle = $style;
-        return $this;
-    }
-
-
-    /**
-     * Returns the default text style. 
-     *  
-     * @return Jm_Console_Output_TextStyle
-     */
-    public function getDefaultTextStyle() {
-        if (!$this->textStyle) {
-            $this->textStyle = new Jm_Console_Output_TextStyle();
-        }
-        return $this->textStyle;
-    }
- 
 
     /**
      * Sets the cursor position.
@@ -459,6 +504,48 @@ class Jm_Console_Output extends Jm_Console_IoStream
         $this->ansiEnabled = FALSE;
         return $this;
     }
+
+
+    /**
+     * Sets the default text style.
+     *
+     * @param string|Jm_Console_TextStyle the value
+     *
+     * @return Jm_Console_Output
+     *
+     * @throws InvalidArgumentException if $style is not a string or a 
+     *                                  Jm_Console_TextStyle
+     */
+    public function setDefaultTextStyle($style) {
+        if(is_string($style)) {
+            $style = Jm_Console_TextStyleFactory::singleton()
+              ->createFromString($style);
+        }
+
+        if(!is_a($style, 'Jm_Console_TextStyle')) {
+            throw new Exception(sprintf(
+                '$style eas expected to be a string. %s found',
+                gettype($style)
+            ));
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Returns the default text style. If it wasn't set before a default
+     * text style will be created.
+     *
+     * @return Jm_Console_TextStyle
+     */
+    public function getDefaultTextStyle() {
+        if(!$this->defaultTextStyle) {
+            $this->defaultTextStyle = new Jm_Console_TextStyle();
+        }
+        return $this->defaultTextStyle;
+    }
+
 
     /*
      * Prints out which features are supported by your terminal

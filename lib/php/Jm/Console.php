@@ -247,22 +247,60 @@ class Jm_Console
 
 
     /**
+     * Sets the default text style for stdout
+     *
      * @return Jm_Console
      */
     public function setDefaultTextStyle($style) {
         $this->stdout()->setDefaultTextStyle($style);
-        $this->stderr()->setDefaultTextStyle($style);
+        return $this;
     }
 
 
+    /**
+     * Returns the default text style for stdout
+     *
+     * @return Jm_Console_TextStyle
+     */
+    public function getDefaultTextStyle() {
+        return $this->stdout()->getDefaultTextStyle();
+    }
 
+
+    /**
+     * Sets the default text style for stderr
+     *
+     * @return Jm_Console
+     */
+    public function setDefaultErrorTextStyle($style) {
+        $this->stderr()->setDefaultTextStyle($style);
+        return $this;       
+    }
+
+
+    /**
+     * Returns the default text style for stderr
+     *
+     * @return Jm_Console_TextStyle
+     */
+    public function getDefaultErrorTextStyle() {
+        return $this->stdout()->getDefaultTextStyle();
+    }
+
+
+    /**
+     * @TODO document
+     */
     public function ansiDisable($fd = NULL) {
         $this->stdout->ansiDisable();
         $this->stderr->ansiDisable();
         return $this;
     }
 
-
+    
+    /**
+     * @TODO document
+     */
     public function ansiEnable($fd = NULL) {
         $this->stdout->ansiEnable();
         $this->stderr->ansiEnable();
@@ -270,26 +308,17 @@ class Jm_Console
     }
 
 
+    /**
+     * Returns the ansified string without printing it.
+     *
+     * @param string                     $text
+     * @param string|Jm_ConsoleTextStyle $style
+     *
+     * @return string
+     */
     public function colorize($text, $style) {
         return $this->stdout()->colorize($text, $style);
     }
-
-
-    /**
-     * @return Jm_Console
-     */
-    public function setDefaultErrorTextStyle($style) {
-
-    }
-
-
-    /**
-     * @return Jm_Console_TextStyle
-     */
-    public function getDefaultErrorTextStyle() {
-
-    }
-
 
     /**
      *
