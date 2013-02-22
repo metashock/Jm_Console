@@ -182,7 +182,8 @@ class Jm_Console_TextStyleFactory
      * @return void
      */
     protected function defaultTextStyleParser($string, $style) {
-        foreach(explode(',', $string) as $statement) {
+
+        foreach(explode(',', $string) as $statement) { 
             $keyval = explode(':', $statement);
 
             if(count($keyval) < 2) {
@@ -215,47 +216,46 @@ class Jm_Console_TextStyleFactory
             // separated by a ':' 
             list($key, $value) = $keyval;
             switch($key) {
-
                 case 'fg' :
-                    if(isset($this->colornames[$value])) {
-                        $style->setForegroundColor($this->colornames[$value]);
-                        break;
+                    if(!isset($this->colornames[$value])) {
+                        throw new Jm_Console_TextStyleException (sprintf(
+                            'Failed to parse the style identifier \'%s\''
+                          . '. Unknown foreground color value \'%s\'',
+                            $string, $value
+                        ));
                     }
-                    throw new Jm_Console_TextStyleException (sprintf(
-                        'Failed to parse the style identifier \'%s\''
-                      . '. Unknown foreground color value \'%s\'',
-                        $string, $value
-                    ));
+
+                    $style->setForegroundColor($this->colornames[$value]);
                     break;
 
                 case 'bg' :
-                    if(isset($this->colornames[$value])) {
-                        $style->setBackgroundColor($this->colornames[$value]);
-                        break;
+                    if(!isset($this->colornames[$value])) {
+                        throw new Jm_Console_TextStyleException (
+                            'Failed to parse the style identifier \'' . $string . '\''
+                          . '. Unknown background color value \'' . $value . '\''
+                        );    
                     }
-                    throw new Jm_Console_TextStyleException (
-                        'Failed to parse the style identifier \'' . $string . '\''
-                      . '. Unknown background color value \'' . $value . '\''
-                    );    
+
+                    $style->setBackgroundColor($this->colornames[$value]);
                     break;                   
 
                 case 'td' :
-                    if(isset($this->decorations[$value])) {
-                        $style->setTextDecoration($this->decorations[$value]);
-                        break;
+                    if(!isset($this->decorations[$value])) {
+                        throw new Jm_Console_TextStyleException (
+                            'Failed to parse the style identifier \'' . $string . '\''
+                          . '. Unknown text decoration value \'' . $value . '\''
+                        );    
                     }
-                    throw new Jm_Console_TextStyleException (
-                        'Failed to parse the style identifier \'' . $string . '\''
-                      . '. Unknown text decoration value \'' . $value . '\''
-                    );    
+                    $style->setTextDecoration($this->decorations[$value]);
                     break;                   
 
                 default :
+                    // if we reached this point something failed
                     throw new Jm_Console_TextStyleException (
                         'Failed to parse the style identifier \'' . $string . '\''
                       . '. Unknown text style property \'' . $key . '\''
                     );
-            } 
+            }
         }
     }
 
