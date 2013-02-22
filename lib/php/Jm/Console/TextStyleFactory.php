@@ -102,6 +102,12 @@ class Jm_Console_TextStyleFactory
 
 
     /**
+     * A method that parses a string description of a style
+     */
+    protected $parser;
+
+
+    /**
      * Initializes $colornames. $decorations and $cache
      *
      * @return Jm_Console_TextStyleFactory
@@ -134,6 +140,8 @@ class Jm_Console_TextStyleFactory
         );
 
         $this->cache = array();
+
+        $this->parser = array($this, 'defaultTextStyleParser');
     }
 
 
@@ -155,8 +163,28 @@ class Jm_Console_TextStyleFactory
         // get a default style
         $style = new Jm_Console_TextStyle();
 
+        $parser = $this->parser;
+        call_user_func($parser, $string, $style);
+        
+        // add the style to the cache 
+        $this->cache[$string]= $style;        
+        return $style; 
+          
+    }
+
+
+    /**
+     * Default text style parser
+     *
+     * @param $string The string with the style properties
+     * @param $style  The style which properites should be set
+     *
+     * @return void
+     */
+    protected function defaultTextStyleParser($string, $style) {
         foreach(explode(',', $string) as $statement) {
             $keyval = explode(':', $statement);
+
             if(count($keyval) < 2) {
                 // it's a simple statement
                 if(in_array($statement, array(
@@ -166,9 +194,8 @@ class Jm_Console_TextStyleFactory
                 ))) {
                     $style->setForegroundColor($this->colornames[$statement]);
                     continue;
-                }
 
-                if(in_array($statement, array(
+                } elseif (in_array($statement, array(
                     'bold', 'light', 'italic', 'underline',
                     'blink_slow', 'blink_rapid', 'blink',
                     'reverse', 'hidden'
@@ -199,6 +226,7 @@ class Jm_Console_TextStyleFactory
                       . '. Unknown foreground color value \'%s\'',
                         $string, $value
                     ));
+                    break;
 
                 case 'bg' :
                     if(isset($this->colornames[$value])) {
@@ -208,7 +236,8 @@ class Jm_Console_TextStyleFactory
                     throw new Jm_Console_TextStyleException (
                         'Failed to parse the style identifier \'' . $string . '\''
                       . '. Unknown background color value \'' . $value . '\''
-                    );                       
+                    );    
+                    break;                   
 
                 case 'td' :
                     if(isset($this->decorations[$value])) {
@@ -218,7 +247,8 @@ class Jm_Console_TextStyleFactory
                     throw new Jm_Console_TextStyleException (
                         'Failed to parse the style identifier \'' . $string . '\''
                       . '. Unknown text decoration value \'' . $value . '\''
-                    );                       
+                    );    
+                    break;                   
 
                 default :
                     throw new Jm_Console_TextStyleException (
@@ -227,11 +257,6 @@ class Jm_Console_TextStyleFactory
                     );
             } 
         }
-
-        // add the style to the cache 
-        $this->cache[$string]= $style;        
-        return $style; 
-          
     }
 
 
