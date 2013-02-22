@@ -6,13 +6,21 @@
    <exclude name="PEAR.Functions.FunctionDeclaration.BraceOnSameLine" />
    <!-- I like to close nested multiline functions like this '));' -->
    <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
+   <!-- When chain object methods across multiple lines I don't like ts=4 -->
+   <exclude name="PEAR.WhiteSpace.ObjectOperatorIndent.Incorrect" />
+   <!-- Don't like a space after if, for, while, foreach, switch -->
+   <exclude name="PEAR.ControlStructures.ControlSignature" />
  </rule>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
  <rule ref="Generic.Commenting.Fixme"/>
  <rule ref="Generic.CodeAnalysis.UselessOverridingMethod" />
 
+ <!-- inline control structures are not allowed -->
+ <rule ref="Generic.ControlStructures.InlineControlStructure" />
+
  <!-- enforce having the '{' at the same line as the function definition -->
+ <!-- rest in peace Mr. Ritchie -->
  <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" /> 
  <!-- Lines can be 80 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
