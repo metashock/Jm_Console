@@ -153,7 +153,7 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
             $content = ob_get_contents();
             ob_end_clean();
 
-            $message = $this->console->stdout()->colorize($message, $style);
+            $message = $this->console->colorize($message, $style);
             $this->assertEquals($content, $message,
                 'Failed to assert that the write produces the right output'
             );
@@ -234,6 +234,11 @@ class Jm_ConsoleTest extends PHPUnit_Framework_TestCase
 
         $this->console->setDefaultTextStyle($style);
         $defaultStyle = $this->console->getDefaultTextStyle();
+        $this->assertEquals($style, $defaultStyle);
+
+        // test the same for stderr
+        $this->console->setDefaultErrorTextStyle($style);
+        $defaultStyle = $this->console->getDefaultErrorTextStyle();
         $this->assertEquals($style, $defaultStyle);
     }
 
