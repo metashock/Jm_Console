@@ -40,7 +40,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -60,12 +60,12 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
  */
-class Jm_Console_TextStyleFactory 
+class Jm_Console_TextStyleFactory  
 {
 
     /**
@@ -151,6 +151,8 @@ class Jm_Console_TextStyleFactory
      *
      * @param string $string The textual representation
      *
+     * @return Jm_Console_TextStyle
+     *
      * @throws Jm_Console_TextStyleException
      */
     public function createFromString($string) {
@@ -176,8 +178,9 @@ class Jm_Console_TextStyleFactory
     /**
      * Default text style parser
      *
-     * @param $string The string with the style properties
-     * @param $style  The style which properites should be set
+     * @param string               $string The string with the style properties
+     * @param Jm_Console_TextStyle $style  The style which properites
+     *                                     should be set
      *
      * @return void
      */
@@ -230,10 +233,11 @@ class Jm_Console_TextStyleFactory
 
                 case 'bg' :
                     if(!isset($this->colornames[$value])) {
-                        throw new Jm_Console_TextStyleException (
-                            'Failed to parse the style identifier \'' . $string . '\''
-                          . '. Unknown background color value \'' . $value . '\''
-                        );    
+                        throw new Jm_Console_TextStyleException (sprintf(
+                            'Failed to parse the style identifier \'%s\''
+                          . '. Unknown text decoration value \'%s\'',
+                            $string, $value
+                        ));
                     }
 
                     $style->setBackgroundColor($this->colornames[$value]);
@@ -241,20 +245,22 @@ class Jm_Console_TextStyleFactory
 
                 case 'td' :
                     if(!isset($this->decorations[$value])) {
-                        throw new Jm_Console_TextStyleException (
-                            'Failed to parse the style identifier \'' . $string . '\''
-                          . '. Unknown text decoration value \'' . $value . '\''
-                        );    
+                        throw new Jm_Console_TextStyleException (sprintf(
+                            'Failed to parse the style identifier \'%s\''
+                          . '. Unknown text decoration value \'%s\'',
+                            $string, $value
+                        ));
                     }
                     $style->setTextDecoration($this->decorations[$value]);
                     break;                   
 
                 default :
                     // if we reached this point something failed
-                    throw new Jm_Console_TextStyleException (
-                        'Failed to parse the style identifier \'' . $string . '\''
-                      . '. Unknown text style property \'' . $key . '\''
-                    );
+                    throw new Jm_Console_TextStyleException (sprintf(
+                        'Failed to parse the style identifier \'%s\''
+                      . '. Unknown text style property \'%s\'',
+                        $string, $key
+                    ));
             }
         }
     }
@@ -275,6 +281,8 @@ class Jm_Console_TextStyleFactory
 
     /**
      * Will throw an excetion in any case
+     *
+     * @return void
      *
      * @throws Exception
      */

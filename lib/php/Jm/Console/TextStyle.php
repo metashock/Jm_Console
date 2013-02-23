@@ -40,7 +40,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -60,7 +60,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -285,6 +285,7 @@ class Jm_Console_TextStyle
 
 
     /**
+     * Returns a default text style 
      *
      * @deprecated
      * @return Jm_Console_TextStyle
@@ -295,8 +296,11 @@ class Jm_Console_TextStyle
 
 
     /**
-     *  @param $value
-     *  @return Jm_Console_TextStyle
+     * Sets the foreground color
+     *
+     * @param string $value One of the color constants 
+     *
+     * @return Jm_Console_TextStyle
      */
     public function setForegroundColor($value) {
         $this->foregroundColor = $value;
@@ -305,7 +309,9 @@ class Jm_Console_TextStyle
 
 
     /**
-     *  @return string
+     * Returns the foreground color
+     *
+     * @return string
      */
     public function getForegroundColor() {
         return $this->foregroundColor;
@@ -313,8 +319,11 @@ class Jm_Console_TextStyle
 
 
     /**
-     *  @param string value
-     *  @return Jm_Console_TextStyle
+     * Sets the background color
+     *
+     * @param string $value One of the color constants
+     *
+     * @return Jm_Console_TextStyle
      */
     public function setBackgroundColor($value) {
         $this->backgroundColor = $value;
@@ -323,8 +332,9 @@ class Jm_Console_TextStyle
 
 
     /**
-     *  @param $value
-     *  @return string
+     * Returns the background color
+     *
+     * @return string
      */
     public function getBackgroundColor() {
         return $this->backgroundColor;
@@ -332,8 +342,11 @@ class Jm_Console_TextStyle
 
 
     /**
-     *  @param $value
-     *  @return Jm_Console_TextStyle
+     * Sets the text decoration
+     *
+     * @param string $value One of the text decoration constants
+     *
+     * @return Jm_Console_TextStyle
      */
     public function setTextDecoration($value) {
         $this->textDecoration = $value;
@@ -342,8 +355,9 @@ class Jm_Console_TextStyle
 
 
     /**
-     *  @param $value
-     *  @return string
+     * Gets the text decoration
+     *
+     * @return string
      */
     public function getTextDecoration() {
         return $this->textDecoration;

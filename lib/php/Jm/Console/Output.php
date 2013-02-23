@@ -40,7 +40,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -77,7 +77,7 @@ if(!defined('STDERR')) {
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -110,7 +110,9 @@ class Jm_Console_Output extends Jm_Console_IoStream
 
 
     /**
-     * @param resource $fd               An open file descriptior
+     * Constructor
+     *
+     * @param resource $fd An open file descriptior
      *
      * @throws InvalidArgumentException  if gettype($fd) !== 'integer'
      */
@@ -123,8 +125,8 @@ class Jm_Console_Output extends Jm_Console_IoStream
     /**
      * Writes $message to $fd.
      *
-     * @param string $message                            The message to print
-     * @param Jm_Console_Output_TextStyle|string $style    The text style
+     * @param string                             $message The message to print
+     * @param Jm_Console_Output_TextStyle|string $style   The text style
      *
      * @return Jm_Console_Output
      *
@@ -165,8 +167,8 @@ class Jm_Console_Output extends Jm_Console_IoStream
     /**
      * Writes a line to stdout. Calls write($message . PHP_EOL, $style);
      *
-     * @param string $message                          The message to print
-     * @param Jm_Console_Output_TextStyle|string $style  The text style
+     * @param string                             $message The message to print
+     * @param Jm_Console_Output_TextStyle|string $style   The text style
      *
      * @return Jm_Console_Output
      *
@@ -217,8 +219,8 @@ class Jm_Console_Output extends Jm_Console_IoStream
     /**
      * Wraps $message into ANSI escape sequences.
      *
-     * @param string $message                  The string to wrap
-     * @param Jm_Console_Output_TextStyle $style The text style
+     * @param string                      $message The string to wrap
+     * @param Jm_Console_Output_TextStyle $style   The text style
      *
      * @return string
      * @todo move to Jm_Console_TextStyle
@@ -238,7 +240,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
         }
 
         // if all style attriubtes set to reset disable styling
-        if ($style->getForegroundColor() 
+        if ($style->getForegroundColor()
             === Jm_Console_TextStyle::DEFAULT_COLOR
         && $style->getBackgroundColor()
             === Jm_Console_TextStyle::DEFAULT_COLOR
