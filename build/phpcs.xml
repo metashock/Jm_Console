@@ -10,6 +10,20 @@
    <exclude name="PEAR.WhiteSpace.ObjectOperatorIndent.Incorrect" />
    <!-- Don't like a space after if, for, while, foreach, switch -->
    <exclude name="PEAR.ControlStructures.ControlSignature" />
+   <!-- I like opening braces of a class declaration to be in a new line -->
+   <exclude name="PEAR.Classes.ClassDeclaration.SpaceBeforeBrace" />
+   <!-- When having long variable names in the comaparison like :
+
+          if($this->getValue()->asInt === Jm_Console_TextStyle::NO_DECORATIONS)
+
+        and the they are in code with high inden, I like it to write:
+
+          if($this->getValue()->asInt
+            === Jm_Console_TextStyle::NO_DECORATIONS) {
+
+          }
+   -->
+   <exclude name="PEAR.ControlStructures.MultiLineCondition.StartWithBoolean" />
  </rule>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
