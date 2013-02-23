@@ -1,6 +1,9 @@
 # J@m; Console
 
-..
+More and more developers rediscover the console as a development environment for web applications or at least see them as useful when debugging or managing remote web applications per ssh. Therefore more and more applications for the commandline version of PHP are developed.
+
+Jm_Console enables PHP developers to create an impressive user interface for console applications in an easy to use way that is portable across different terminals and operating systems.
+
 
 ## Installation
 
@@ -59,9 +62,67 @@ $console->errorln('foo');  // writes foo to stderr and adds a newline
 ___
 ### Terminal colors
 
-Jm_Console aims to provide an intuitive access to terminal colors when printing text.
+The ANSI Terminal standard allows to define a foreground color, a background color and choose a text decoration mode. Jm_Console aims to provide an intuitive access to terminal colors when printing text.
+
+The simplest thing is to just specifiy a foreground color:
+
+```php
+$console->writeln('hello, world!', 'green');   // writes green text to stdout
+$console->errorln('an error occured!', 'red'); // writes red text to stderr
+```
 
 ![green text](green_text.png)
+
+
+or just specify a text decoration:
+
+```php
+$console->writeln('Booh!', 'bold');              // writes bold text to stdout
+$console->writeln('I\'m a link!', 'underline');  // writes underlined text to stdout
+```
+
+or specify both a foreground color and a text decoration:
+
+```php
+$console->writeln('Booh!', 'blue,bold');                 // writes bold blue text to stdout
+$console->writeln('I\'m a link!', 'yellow, underline');  // writes underlined yellow text to stdout
+```
+
+If want to set the background color you'll have to use the prefix `bg:` in front of the color. Otherwise Jm_Console couldn't make a difference between foreground color and background color:
+
+```php
+$console->writeln('Booh!', 'white,bg:blue');             // writes white text on a blue background to stdout
+$console->writeln('I\'m a link!', 'yellow, underline');  // writes underlined yellow text to stdout
+```
+
+
+Table: *Available Graphics modes*
+
+<table>
+  <tr>
+    <th>Colors</th>
+    <th>Text Decorations</th>
+  </tr>
+  <tr>
+    <td><ul>
+    <li>blue</li>
+    <li>yellow</li>
+    <li>red</li>
+    </td>
+    <td>dsfsd</td>
+  </tr>
+</table>
+
+
+___
+### Cursor positioning
+
+
+## Example
+
+___
+### Drawing a progress bar on terminal
+
 
 ### API documentation
 
