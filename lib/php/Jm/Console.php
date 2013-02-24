@@ -168,6 +168,7 @@ class Jm_Console
      */
     public function error($message, $style = NULL) {
         $this->stderr->write($message, $style);
+        return $this;
     }
 
 
@@ -185,6 +186,7 @@ class Jm_Console
      */
     public function errorln($message, $style = NULL) {
         $this->stderr->writeln($message, $style);
+        return $this;
     }
 
 
