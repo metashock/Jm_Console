@@ -97,18 +97,8 @@ class Jm_Console_Input extends Jm_Console_IoStream
      *
      * @throws InvalidArgumentException  if gettype($fd) !== 'integer'
      */
-    public function __construct($fd = STDOUT) {
-        if(!is_resource($fd)) {
-            throw new InvalidArgumentException (
-                sprintf('the type $fd expected to be resource. %s found',
-                    gettype($fd)
-                )
-            );
-        }
-
-        $this->fd = $fd;
-        // at the moment it's 'just a resource'
-        $this->assumeIsattyCached = NULL;
+    public function __construct($fd = STDIN) {
+        parent::__construct($fd);
     }
 
 
