@@ -80,12 +80,10 @@ class Jm_Console
      */
     protected $defaultTextStyle;
 
-
     /**
      * @var Jm_Console
      */
     protected static $singletonInstance;
-
 
 
     /**
@@ -94,7 +92,7 @@ class Jm_Console
      * @return Jm_Console
      */
     protected function __construct() {
-        $this->stdin  = new Jm_Console_Input(STDIN);
+        $this->stdin  = new Jm_Console_Input();
         $this->stdout = new Jm_Console_Output(STDOUT);
         $this->stderr = new Jm_Console_Output(STDERR);
     }

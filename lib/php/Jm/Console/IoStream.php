@@ -127,7 +127,6 @@ class Jm_Console_IoStream
      * @return boolean true if STDOUT goes to a terminal false if not.
      */
     public function assumeIsatty() {
-
         // this behaviour can be enforced (because of the test suite)
         if($this->enforceIsatty()) {
             return TRUE;
@@ -140,7 +139,7 @@ class Jm_Console_IoStream
 
         // on Windows there is ansicon. A cmd.exe replacemnt
         // that supports ANSI escape sequences
-        if (DIRECTORY_SEPARATOR == '\\') {
+        if (DIRECTORY_SEPARATOR === '\\') {
             if (getenv('ANSICON') !== FALSE) {
                 // if the ENVVAR isset return TRUE
                 return $this->assumeIsattyCached = TRUE;
@@ -197,11 +196,11 @@ class Jm_Console_IoStream
      *
      * @param NULL|boolean $enforce Boolean flag
      *
-     * @return Jm_Console_IoStream
+     * @return Jm_Console_IoStream|boolean
      */
     public function enforceIsatty($enforce = NULL) {
         if(!is_null($enforce)) {
-            if(!is_bool($value)) {
+            if(!is_bool($enforce)) {
                 throw new InvalidArgumentException(
                     'value expected to be bool or NULL. ' .
                     gettype($enforce) . ' found.'
@@ -209,8 +208,10 @@ class Jm_Console_IoStream
             }
 
             $this->enforceIsatty = $enforce;
+            return $this;
+        } else {
+            return $this->enforceIsatty;
         }
-        return $this;
     }
 }
 
