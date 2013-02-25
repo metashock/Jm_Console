@@ -107,45 +107,52 @@ class Jm_Console_OutputTest extends PHPUnit_Framework_TestCase
     /**
      * Tests all terminal control methods that takes no arguments
      * and printing ANSI commands to the terminal in a batch.
+     *
+     * @param string $method The name of the method to test
+     * @param string $code The expected output
+     *
+     * @dataProvider testClearAndFriendsDataProvider
      */
-    public function testClearAndFriends() {
+    public function testClearAndFriends($method, $code) {
+        $fd = $this->openTempFile('w+', $file);
+        $output = new Jm_Console_Output($fd);
+        $output->{$method}();
 
-        $methods = array(
-            'clear'     => "\033[;f\033[2J",
-            'eraseln'   => "\033[1K",
-            'savecursor' => "\033[s",
-            'restorecursor' => "\033[u",
-            'cursorback' => "\033[1D"
+        clearstatcache();
+        // the output should be empty as $fd isn't a terminal
+        $this->assertEquals(0, filesize($file), 'Wrong result from ' . $method
+            . '. ANSI is disabled' );
+
+        // repeat the test with enforceIsatty. Output should be 
+        // the desired escape sequence
+        $output->enforceIsatty(TRUE);
+        $output->{$method}();
+
+        // important!
+        clearstatcache();
+        rewind($fd); // I don't know why this rewind() is required
+   
+        // the output should be empty as $fd isn't a terminal
+        $written = fread($fd, filesize($file));
+
+        // close $fd early
+        fclose($fd);            
+
+        $this->assertEquals($code, $written);
+    }
+
+   
+    /**
+     * Data provider for the method above
+     */ 
+    public function testClearAndFriendsDataProvider() {
+        return array(
+            array('clear', "\033[;f\033[2J"),
+            array('eraseln', "\033[1K"),
+            array('savecursor', "\033[s"),
+            array('restorecursor', "\033[u"),
+            array('cursorback',"\033[1D")
         );
-
-        foreach($methods as $method => $code) {
-
-            $fd = $this->openTempFile('w+', $file);
-            $output = new Jm_Console_Output($fd);
-            $output->{$method}();
-
-            // the output should be empty as $fd isn't a terminal
-            $written = fgets($fd);
-
-            $this->assertEquals('', $written);
-
-            // repeat the test with enforceIsatty. Output should be 
-            // the desired escape sequence
-
-            $output->enforceIsatty(TRUE);
-            $output->{$method}();
-
-            // rewind file seek
-            rewind($fd);
-
-            // the output should be empty as $fd isn't a terminal
-            $written = fread($fd, filesize($file));
-
-            // close $fd early
-            fclose($fd);            
-
-            $this->assertEquals($code, $written);
-        }
     }
 }
 
