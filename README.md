@@ -135,7 +135,7 @@ ___
 ANSI terminals support positioning of the cursor.
 
 ```php
-$console->setCursorPosition(0, 0); // positioning the cursor at upper left corner
+$console->cursorPosition(0, 0); // positioning the cursor at upper left corner
 ```
 It is also possible to store the cursor position and restore it later:
 

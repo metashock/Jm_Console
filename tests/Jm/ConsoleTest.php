@@ -292,9 +292,9 @@ EOF;
 
     /**
      * Tests if the right escape sequence
-     * will be printed by $this->console->setCursorPosition()
+     * will be printed by $this->console->cursorPosition()
      */
-    public function testSetCursorPosition() {
+    public function testCursorPosition() {
         $row = 10;
         $column = 5;
 
