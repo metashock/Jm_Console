@@ -269,6 +269,9 @@ class Jm_Console_Output extends Jm_Console_IoStream
     /**
      * Sets the cursor position.
      *
+     * @param integer $column The column
+     * @param integer $line   The line
+     *
      * @return Jm_Console_Output
      *
      * @throws Jm_Console_Output_Exception
@@ -336,7 +339,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @return Jm_Console_Output
      */
     public function cursorback() {
-         if(!$this->assumeIsatty()) {
+        if(!$this->assumeIsatty()) {
             // I see no way to test this reliable
             // @codeCoverageIgnoreStart
             return $this;
@@ -354,7 +357,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @return Jm_Console_Output
      */
     public function savecursor() {
-         if(!$this->assumeIsatty()) {
+        if(!$this->assumeIsatty()) {
             return $this;
         }
         $this->write("\033[s");
@@ -369,7 +372,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @return Jm_Console_Output
      */
     public function restorecursor() {
-         if(!$this->assumeIsatty()) {
+        if(!$this->assumeIsatty()) {
             // I see no way to test this reliable
             // @codeCoverageIgnoreStart
             return $this;
@@ -468,7 +471,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
     /**
      * Sets the default text style.
      *
-     * @param string|Jm_Console_TextStyle the value
+     * @param string|Jm_Console_TextStyle $style the value
      *
      * @return Jm_Console_Output
      *

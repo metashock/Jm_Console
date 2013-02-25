@@ -40,7 +40,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -76,7 +76,7 @@ if(!defined('STDIN')) {
  * @package   Jm_Console
  * @author    Thorsten Heymann <info@metashock.net>
  * @copyright 2013 Thorsten Heymann
- * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+ * @license   BSD-3 http://www.opensource.org/licenses/bsd-license.php BSD
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/pear
  * @since     0.0.0
@@ -93,56 +93,20 @@ class Jm_Console_Input extends Jm_Console_IoStream
 
 
     /**
-     * @param resource $fd               An open file descriptior
+     * Constructor
      *
-     * @throws InvalidArgumentException  if gettype($fd) !== 'integer'
+     * @throws InvalidArgumentException If something is wrong with STDIN.
+     * This exception was never observed.
      */
-    public function __construct($fd = STDIN) {
-        parent::__construct($fd);
+    public function __construct() {
+        parent::__construct(STDIN);
     }
-
-
-    /*
-     * @see http://php.net/manual/en/function.fgetc.php
-     * current problem: when typing very quick the method might
-     *
-     * not catch all characters. The problem may especially exist 
-     * on slower hardware. Therefore disabled the method
-     *
-     * @return string
-     */
-/*    public function readc($echo = FALSE) {
-        // Never tried it in on windows. will do
-        if(DIRECTORY_SEPARATOR === '\\') {
-            return '';
-        }
-
-        // readc currently needs help from /bin/stty
-        // check if stty can be executed
-        if(!is_executable('/bin/stty')) {
-            return FALSE;
-        }
-
-        $echo = $echo ? "" : "-echo";
-
-        # Get original settings
-        $stty_settings = preg_replace("#.*; ?#s", "", self::stty("--all"));
-
-        # Set new ones
-        $this->stty("cbreak $echo");
-        $c = fgetc(STDIN);
-
-        # Return settings
-        $this->stty($stty_settings);
-
-        return $c;
-    }*/
 
 
     /**
      * Reads a line from keyboard.
      *
-     * @returns string|NULL
+     * @return string|NULL
      */
     public function readln () {
         // read next line from stdin

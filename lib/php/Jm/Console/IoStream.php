@@ -40,7 +40,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -54,7 +54,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -88,7 +88,9 @@ class Jm_Console_IoStream
 
 
     /**
-     * @param resource $fd               An open file descriptior
+     * Constructor
+     * 
+     * @param resource $fd An open file descriptior
      *
      * @return Jm_Console_IoStream
      *
@@ -122,8 +124,7 @@ class Jm_Console_IoStream
      * realized that the posix extension is only rarely deployed in most 
      * 3rd party hosted environments.
      * 
-     *  @param resource $fd=STDOUT
-     *  @return boolean true if STDOUT goes to a terminal false if not.
+     * @return boolean true if STDOUT goes to a terminal false if not.
      */
     public function assumeIsatty() {
 
@@ -194,21 +195,22 @@ class Jm_Console_IoStream
      * I'm currently needing this method for automated tests
      * where stdout doesn't go to a terminal
      *
-     * @param NULL|boolean $value
-     * @return boolean
+     * @param NULL|boolean $enforce Boolean flag
+     *
+     * @return Jm_Console_IoStream
      */
-    public function enforceIsatty($value = NULL) {
-        if(!is_null($value)) {
+    public function enforceIsatty($enforce = NULL) {
+        if(!is_null($enforce)) {
             if(!is_bool($value)) {
                 throw new InvalidArgumentException(
                     'value expected to be bool or NULL. ' .
-                    gettype($value) . ' found.'
+                    gettype($enforce) . ' found.'
                 );
             }
 
-            $this->enforceIsatty = $value;
+            $this->enforceIsatty = $enforce;
         }
-        return $this->enforceIsatty;
+        return $this;
     }
 }
 

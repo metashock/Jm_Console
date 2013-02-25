@@ -40,7 +40,7 @@
  * @package   Jm_Console
  * @author    Thorsten Heymann <thorsten@metashock.de>
  * @copyright 2013 Thorsten Heymann <thorsten@metashock.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause
+ * @license   BSD-3 http://www.opensource.org/licenses/BSD-3-Clause
  * @version   GIT: $$GITVERSION$$
  * @link      http://www.metashock.de/
  * @since     0.3.0
@@ -116,6 +116,8 @@ class Jm_Console
     /**
      * Will throw an exception as cloning of a singleton is not allowed
      *
+     * @return void
+     *
      * @throws Exception
      */
     public function __clone() {
@@ -126,8 +128,8 @@ class Jm_Console
     /**
      * Writes $message to STDOUT
      *
-     * @param string $message                              The message to print
-     * @param Jm_Console_Output_TextStyle|string $style    The text style
+     * @param string                             $message The message to print
+     * @param Jm_Console_Output_TextStyle|string $style   The text style
      *
      * @return Jm_Console
      *
@@ -141,8 +143,8 @@ class Jm_Console
     /**
      * Writes a line to STDOUT. Calls write($message . PHP_EOL, $style);
      *
-     * @param string $message                            The message to print
-     * @param Jm_Console_Output_TextStyle|string $style  The text style
+     * @param string                             $message The message to print
+     * @param Jm_Console_Output_TextStyle|string $style   The text style
      *
      * @return Jm_Console
      *
@@ -157,8 +159,8 @@ class Jm_Console
     /**
      * Writes $message to STDERR
      *
-     * @param string $message                              The message to print
-     * @param Jm_Console_Output_TextStyle|string $style    The text style
+     * @param string                             $message The message to print
+     * @param Jm_Console_Output_TextStyle|string $style   The text style
      *
      * @return Jm_Console
      * 
@@ -175,8 +177,8 @@ class Jm_Console
     /**
      * Writes a line to STDOUT. Calls write($message . PHP_EOL, $style);
      *
-     * @param string $message                            The message to print
-     * @param Jm_Console_Output_TextStyle|string $style  The text style
+     * @param string                             $message The message to print
+     * @param Jm_Console_Output_TextStyle|string $style   The text style
      *
      * @return Jm_Console
      *
@@ -205,6 +207,8 @@ class Jm_Console
      * Clears the screen
      *
      * @return Jm_Console
+     *
+     * @throws Jm_Console_OutputException
      */
     public function clear() {
         $this->stdout->clear();
@@ -215,7 +219,12 @@ class Jm_Console
     /**
      * Sets the cursor position
      *
+     * @param integer $column The column
+     * @param integer $line   The line
+     *
      * @return Jm_Console
+     *
+     * @throws Jm_Console_OutputException
      */
     public function cursorPosition($column, $line) {
         $this->stdout->cursorPosition($column, $line);
@@ -227,6 +236,8 @@ class Jm_Console
      * Sets the cursor postion to the previous column  
      *
      * @return Jm_Console
+     *
+     * @throws Jm_Console_OutputException
      */
     public function cursorback() {
         $this->stdout->cursorback();
@@ -238,6 +249,8 @@ class Jm_Console
      * Saves the current cursor position
      *
      * @return Jm_Console
+     *
+     * @throws Jm_Console_OutputException
      */
     public function savecursor() {
         $this->stdout->savecursor();
@@ -249,6 +262,8 @@ class Jm_Console
      * Restores a previously saved cursor position
      *
      * @return Jm_Console
+     *
+     * @throws Jm_Console_OutputException
      */
     public function restorecursor() {
         $this->stdout->restorecursor();
@@ -303,6 +318,8 @@ class Jm_Console
     /**
      * Sets the default text style for stdout
      *
+     * @param Jm_Console_TextStyle|string $style The style
+     *
      * @return Jm_Console
      */
     public function setDefaultTextStyle($style) {
@@ -324,6 +341,8 @@ class Jm_Console
     /**
      * Sets the default text style for stderr
      *
+     * @param Jm_Console_TextStyle|string $style The style
+     *
      * @return Jm_Console
      */
     public function setDefaultErrorTextStyle($style) {
@@ -343,9 +362,11 @@ class Jm_Console
 
 
     /**
-     * @TODO document
+     * Disables ANSI control chars for stdout and stderr
+     *
+     * @return Jm_Console
      */
-    public function ansiDisable($fd = NULL) {
+    public function ansiDisable() {
         $this->stdout->ansiDisable();
         $this->stderr->ansiDisable();
         return $this;
@@ -353,9 +374,11 @@ class Jm_Console
 
     
     /**
-     * @TODO document
+     * Enables ANSI control chars for stdout and stderr
+     *
+     * @return Jm_Console
      */
-    public function ansiEnable($fd = NULL) {
+    public function ansiEnable() {
         $this->stdout->ansiEnable();
         $this->stderr->ansiEnable();
         return $this;
@@ -365,8 +388,8 @@ class Jm_Console
     /**
      * Returns the ansified string without printing it.
      *
-     * @param string                     $text
-     * @param string|Jm_ConsoleTextStyle $style
+     * @param string                     $text  The text to be colorized
+     * @param string|Jm_ConsoleTextStyle $style The style that should be used
      *
      * @return string
      */
