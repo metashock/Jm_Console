@@ -105,11 +105,26 @@ Table: *Available Graphics modes*
   </tr>
   <tr>
     <td><ul>
-    <li>blue</li>
-    <li>yellow</li>
+    <li>black</li>
     <li>red</li>
-    </td>
-    <td>dsfsd</td>
+    <li>green</li>
+    <li>yellow</li>
+    <li>blue</li>
+    <li>purple</li>
+    <li>cyan</li>
+    <li>white</li>
+    <li>default</li>
+    </ul></td>
+    <td><ul>
+    <li>bold</li>
+    <li>light</li>
+    <li>italic</li>
+    <li>underline</li>
+    <li>blink</li>
+    <li>reverse</li>
+    <li>hidden</li>
+    <li>default</li>
+    </ul></td>
   </tr>
 </table>
 
@@ -117,18 +132,76 @@ Table: *Available Graphics modes*
 ___
 ### Cursor positioning
 
+ANSI terminals support positioning of the cursor.
+
+```php
+$console->setCursorPosition(0, 0); // positioning the cursor at upper left corner
+```
+It is also possible to store the cursor position and restore it later:
+
+```php
+$console->savecursor(); // saves the cursor position
+// ...
+$console->restorecursor(); // restores the cursor position
+```
 
 ## Example
-
 ___
 ### Drawing a progress bar on terminal
 
+```php
+<?php
 
-### API documentation
+require_once 'Jm/Autoloader.php';
+Jm_Autoloader::singleton()->prependPath('lib/php');
 
-The API docs can be found here:
+$console = Jm_Console::singleton();
 
-    http://metashock.de/docs/api/Jm/Console/index.html
+for($a = 0; $a < 3; $a++) {
+    $s = rand(1, 50000);
+    $console->savecursor();
+    $total = rand(1,100);
+    for($i = 0; $i <= $total; $i++) {
+        if($console->stdout()->assumeIsatty()) {
+            $console->stdout()->eraseln();
+            $console->restorecursor();
+            $console->write('importing: ');
+            progressbar($i, $total);
+            printf("  %s/%s", $i, $total);
+        } else {
+            printf("importing: %s/%s", $i, $total);
+            echo PHP_EOL;
+        }   
+        usleep($s);
+    }   
+    $console->writeln();
+}
+
+
+/**
+ * Renders the progressbar
+ */
+function progressbar($now, $total, $w=35) {
+    $console = Jm_Console::singleton();
+    $console->write('[', 'white,light');
+    $n = floor($now * $w / $total);
+
+    $console->write(str_repeat('+', $n), 'green,light');
+    if($n < $w) {
+        $console->write(']', 'green,light');
+        $console->write(str_repeat('-', $w - $n -1), 'red,light');
+    }   
+
+    $console->write(']', 'white,light');
+}
+```
+
+
+
+
+## API documentation
+
+The API docs can be found here: http://metashock.de/docs/api/Jm/Console/index.html
 
 
 
