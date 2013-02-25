@@ -83,10 +83,10 @@ class Jm_Console_OutputTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException Exception
+     * @expectedException InvalidArgumentException
      */
     public function testColorizeException() {
-        $this->console->stdout()->colorize('test', new DateTime());
+        $this->terminal->colorize('test', new DateTime());
     }
 
 
@@ -145,9 +145,7 @@ class Jm_Console_OutputTest extends PHPUnit_Framework_TestCase
             fclose($fd);            
 
             $this->assertEquals($code, $written);
-
         }
     }
-
 }
 

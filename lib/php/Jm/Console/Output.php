@@ -225,7 +225,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
         if(is_string($style)) {
             $style = Jm_Console_TextStyle::fromString($style);
         } else if (!is_a($style, 'Jm_Console_TextStyle')) {
-            throw new Exception(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 '$style expected to be a Jm_Console_TextStyle or a string. '
               . '%s found', gettype($style)
             ));
