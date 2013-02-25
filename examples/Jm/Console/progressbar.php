@@ -14,7 +14,7 @@ for($a = 0; $a < 3; $a++) {
             $console->stdout()->eraseln();
             $console->restorecursor();
             $console->write('importing: ');
-            progressbar($i, $total, 90);
+            progressbar($i, $total);
             printf("  %s/%s", $i, $total);
         } else {
             printf("importing: %s/%s", $i, $total);
@@ -29,18 +29,18 @@ for($a = 0; $a < 3; $a++) {
 /**
  *
  */
-function progressbar($terminal, $now, $total, $w=35) {
-    global $console;
-    $console->write('[', 'fg:white,td:light');
+function progressbar($now, $total, $w=35) {
+    $console = Jm_Console::singleton();
+    $console->write('[', 'white,light');
     $n = floor($now * $w / $total);
 
-    $console->write(str_repeat('+', $n), 'fg:green,td:light');
+    $console->write(str_repeat('+', $n), 'green,light');
     if($n < $w) {
-        $console->write(']', 'fg:green,td:light');
-        $console->write(str_repeat('-', $w - $n -1), 'fg:red:td:light');
+        $console->write(']', 'green,light');
+        $console->write(str_repeat('-', $w - $n -1), 'red,light');
     }
 
-    $console->write(']', 'fg:white,td:light');
+    $console->write(']', 'white,light');
 }
 
 
