@@ -217,8 +217,8 @@ class Jm_Console
      *
      * @return Jm_Console
      */
-    public function setCursorPosition($column, $line) {
-        $this->stdout->setCursorPosition($column, $line);
+    public function cursorPosition($column, $line) {
+        $this->stdout->cursorPosition($column, $line);
         return $this;
     }
 

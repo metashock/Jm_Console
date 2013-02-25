@@ -299,7 +299,7 @@ EOF;
         $column = 5;
 
         ob_start();
-        $this->console->setCursorPosition($column, $row);
+        $this->console->cursorPosition($column, $row);
         $output = ob_get_contents();
         ob_end_clean();
 

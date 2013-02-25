@@ -281,7 +281,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      *
      * @throws Jm_Console_Output_Exception
      */
-    public function setCursorPosition($column, $line) {
+    public function cursorPosition($column, $line) {
         if(!$this->assumeIsatty()) {
             // @codeCoverageIgnoreStart
             return $this;
