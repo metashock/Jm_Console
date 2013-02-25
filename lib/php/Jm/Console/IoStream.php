@@ -63,6 +63,14 @@ class Jm_Console_IoStream
 {
 
     /**
+     * A reference to the underlying file descriptor
+     *
+     * @var resource
+     */
+    protected  $fd;
+
+
+    /**
      * It requires some effort to answer the question if
      * the file decscriptor belongs to a device that understands
      * escape sequences or not. Therefore the value will be cached.

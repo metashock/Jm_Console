@@ -86,14 +86,6 @@ class Jm_Console_Output extends Jm_Console_IoStream
 {
 
     /**
-     * A reference to the underlying file descriptor
-     *
-     * @var resource
-     */
-    protected  $fd;
-
-
-    /**
      * Using this flag ANSI escaping can explecitely disabled
      *
      * @var boolean
