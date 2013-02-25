@@ -169,16 +169,6 @@ class Jm_Console_Input extends Jm_Console_IoStream
         // remove the new line from input
         return str_replace(PHP_EOL, "", $input);
     }
-
-
-    /**
-     * @see http://php.net/manual/en/function.fgetc.php
-     */
-    protected function stty($options) {
-        exec($cmd = "/bin/stty $options", $output, $el);
-        $el AND die("exec($cmd) failed");
-        return implode(" ", $output);
-    }
    
 }
 

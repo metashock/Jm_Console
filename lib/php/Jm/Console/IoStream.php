@@ -202,20 +202,5 @@ class Jm_Console_IoStream
         }
         return $this->enforceIsatty;
     }
-
-
-
-    /**
-     * @see http://php.net/manual/en/function.fgetc.php
-     */
-    protected function stty($options) {
-        if(!is_executable('/bin/stty')) {
-            return FALSE;
-        }
-        exec($cmd = "/bin/stty $options", $output, $el);
-        $el AND die("exec($cmd) failed");
-        return implode(" ", $output);
-    }
-
 }
 
