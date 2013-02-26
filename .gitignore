@@ -9,3 +9,7 @@ cache.properties
 
 # netbeans folder
 /nbproject
+
+# composer lock
+composer.lock
+

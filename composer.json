@@ -1,0 +1,20 @@
+{
+    "name"          : "metashock/Jm_Console",
+    "version"       : "0.3.0",
+    "license"       : "BSD-3",
+    "description"   : "Jm_Console is a library for terminal colors",
+    "minimum-stability" : "beta",
+
+    "repositories"  : {
+        "metashock" : {
+            "type"   : "pear",
+            "url"    : "http://www.metashock.de/pear",
+            "strict" : true
+        }
+    },
+
+    "require"       : {
+        "pear-www.metashock.de/pear/jm_autoloader" : "*"
+    }
+}
+
