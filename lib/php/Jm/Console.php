@@ -105,7 +105,8 @@ class Jm_Console
      */
     public static function singleton() {
         if(!self::$singletonInstance) {
-            self::$singletonInstance = new Jm_Console();
+            $class = get_called_class();
+            self::$singletonInstance = new $class();
         }
         return self::$singletonInstance;
     }
