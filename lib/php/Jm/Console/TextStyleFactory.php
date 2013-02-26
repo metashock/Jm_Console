@@ -186,7 +186,8 @@ class Jm_Console_TextStyleFactory
      */
     protected function defaultTextStyleParser($string, $style) {
 
-        foreach(explode(',', $string) as $statement) { 
+        foreach(explode(',', $string) as $statement) {
+            $statement = trim($statement);
             $keyval = explode(':', $statement);
 
             if(count($keyval) < 2) {
