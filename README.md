@@ -71,7 +71,7 @@ $console->writeln('hello, world!', 'green');   // writes green text to stdout
 $console->errorln('an error occured!', 'red'); // writes red text to stderr
 ```
 
-![green text](green_text.png)
+![green text](res/colors.png)
 
 
 or just specify a text decoration:
@@ -81,6 +81,8 @@ $console->writeln('Booh!', 'bold');              // writes bold text to stdout
 $console->writeln('I\'m a link!', 'underline');  // writes underlined text to stdout
 ```
 
+![green text](res/decorations.png)
+
 or specify both a foreground color and a text decoration:
 
 ```php
@@ -88,13 +90,14 @@ $console->writeln('Booh!', 'blue,bold');                 // writes bold blue tex
 $console->writeln('I\'m a link!', 'yellow, underline');  // writes underlined yellow text to stdout
 ```
 
+![green text](res/decorations2.png)
+
 If want to set the background color you'll have to use the prefix `bg:` in front of the color. Otherwise Jm_Console couldn't make a difference between foreground color and background color:
 
 ```php
 $console->writeln('Booh!', 'white,bg:blue');             // writes white text on a blue background to stdout
-$console->writeln('I\'m a link!', 'yellow, underline');  // writes underlined yellow text to stdout
 ```
-
+![green text](res/background-color.png)
 
 Table: *Available Graphics modes*
 
