@@ -131,9 +131,9 @@ class Jm_Console_Output extends Jm_Console_IoStream
         if(is_string($style)) {
             $style = Jm_Console_TextStyle::fromString($style);
         }
-        if ($this->ansiEnabled === TRUE && $this->assumeIsatty()) {
-            $message = $this->colorize($message, $style);
-        }
+
+
+        $message = $this->colorize($message, $style);
 
         // when fd points to STDOUT we use echo instead of fwrite()
         // this will keep the ob_* functions working
@@ -221,7 +221,6 @@ class Jm_Console_Output extends Jm_Console_IoStream
         $message,
         $style
     ) {
-
         if(is_string($style)) {
             $style = Jm_Console_TextStyle::fromString($style);
         } else if (!is_a($style, 'Jm_Console_TextStyle')) {
@@ -229,6 +228,13 @@ class Jm_Console_Output extends Jm_Console_IoStream
                 '$style expected to be a Jm_Console_TextStyle or a string. '
               . '%s found', gettype($style)
             ));
+        }
+
+
+        // on non ansi terminals or when ansi has been explicitely disabled
+        // we no styling is required
+        if ($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
+            return $message;
         }
 
         // if all style attriubtes set to reset disable styling
