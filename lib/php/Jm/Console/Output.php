@@ -174,41 +174,6 @@ class Jm_Console_Output extends Jm_Console_IoStream
 
 
     /**
-     * Clears the screen. This is like typing 'clear' on
-     * Linux or 'cls' on Windows terminals.
-     *
-     * @return Jm_Console_Output
-     *
-     * @throws Jm_Console_Output_Exception
-     */
-    public function clear() {
-        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
-            return $this;
-        }
-        $this->write("\033[;f\033[2J");
-        return $this;
-    }
-
-
-
-    /**
-     * Erases the entire current line
-     *
-     * @return Jm_Console_Output
-     *
-     * @throws Jm_Console_Output_Exception
-     */
-    public function eraseln() {
-        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
-            return $this;
-        }
-        $pattern = "\033[1K";
-        $this->write($pattern);
-        return $this;
-    }
-
-
-    /**
      * Wraps $message into ANSI escape sequences.
      *
      * @param string                      $message The string to wrap
@@ -270,6 +235,43 @@ class Jm_Console_Output extends Jm_Console_IoStream
         $ansi .= "\033[0m";
         return $ansi;
     }
+
+
+    /**
+     * Clears the screen. This is like typing 'clear' on
+     * Linux or 'cls' on Windows terminals.
+     *
+     * @return Jm_Console_Output
+     *
+     * @throws Jm_Console_Output_Exception
+     */
+    public function clear() {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
+            return $this;
+        }
+        $this->write("\033[;f\033[2J");
+        return $this;
+    }
+
+
+
+    /**
+     * Erases the entire current line
+     *
+     * @return Jm_Console_Output
+     *
+     * @throws Jm_Console_Output_Exception
+     */
+    public function eraseln() {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
+            return $this;
+        }
+        $pattern = "\033[1K";
+        $this->write($pattern);
+        return $this;
+    }
+
+
 
 
     /**
@@ -397,7 +399,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @throws Jm_Console_OutputException if for somewhat reason the ANSICON
      * env var on Windows contains crap
      */
-    public function getScreenDimensions () {
+    public function screenDimensions () {
         if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             // I see no way to test this reliable
             // @codeCoverageIgnoreStart

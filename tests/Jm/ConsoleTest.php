@@ -355,7 +355,7 @@ EOF;
      *
      */
     public function testGetScreenDimensions() {
-        $dim = $this->console->getScreenDimensions();
+        $dim = $this->console->screenDimensions();
         // we cannot do more as we don't know the size of
         // the console ( and won't use the same methods as 
         // the tested method )

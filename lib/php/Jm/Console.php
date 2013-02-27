@@ -279,8 +279,8 @@ class Jm_Console
      * @throws Jm_Console_OutputException if for somewhat reason the ANSICON
      * env var on Windows contains crap
      */
-    public function getScreenDimensions () {
-        return $this->stdout->getScreenDimensions();
+    public function screenDimensions () {
+        return $this->stdout->screenDimensions();
     }
 
 
