@@ -182,7 +182,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @throws Jm_Console_Output_Exception
      */
     public function clear() {
-        if(!$this->assumeIsatty()) {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             return $this;
         }
         $this->write("\033[;f\033[2J");
@@ -199,7 +199,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @throws Jm_Console_Output_Exception
      */
     public function eraseln() {
-        if(!$this->assumeIsatty()) {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             return $this;
         }
         $pattern = "\033[1K";
@@ -283,7 +283,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @throws Jm_Console_Output_Exception
      */
     public function cursorPosition($column, $line) {
-        if(!$this->assumeIsatty()) {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             // @codeCoverageIgnoreStart
             return $this;
             // @codeCoverageIgnoreEnd
@@ -345,7 +345,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @return Jm_Console_Output
      */
     public function cursorback() {
-        if(!$this->assumeIsatty()) {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             // I see no way to test this reliable
             // @codeCoverageIgnoreStart
             return $this;
@@ -363,7 +363,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @return Jm_Console_Output
      */
     public function savecursor() {
-        if(!$this->assumeIsatty()) {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             return $this;
         }
         $this->write("\033[s");
@@ -378,7 +378,7 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * @return Jm_Console_Output
      */
     public function restorecursor() {
-        if(!$this->assumeIsatty()) {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
             // I see no way to test this reliable
             // @codeCoverageIgnoreStart
             return $this;
@@ -398,6 +398,13 @@ class Jm_Console_Output extends Jm_Console_IoStream
      * env var on Windows contains crap
      */
     public function getScreenDimensions () {
+        if($this->ansiEnabled !== TRUE || !$this->assumeIsatty()) {
+            // I see no way to test this reliable
+            // @codeCoverageIgnoreStart
+            return $this;
+            // @codeCoverageIgnoreEnd
+        }
+
         if (DIRECTORY_SEPARATOR !== '\\') {
             // on nix systems we use tput
             return  array (
