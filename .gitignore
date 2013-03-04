@@ -13,3 +13,5 @@ cache.properties
 # composer lock
 composer.lock
 
+# phish cache folder
+.phish

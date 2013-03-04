@@ -1,0 +1,55 @@
+#!/bin/bash
+
+mydir=`dirname $0`
+
+# update the date and time
+sed -i -e "s/<date>.*<\/date>/<date>`date +%Y-%m-%d`<\/date>/" \
+       -e "s/<time>.*<\/time>/<time>`date +%X`<\/time>/" \
+"$mydir"/package.xml
+
+# prepare directory structure
+if [ ! -f "$mydir/pear/Jm/Console" ] ; then
+    mkdir "$mydir/pear/Jm/Console" -pv
+fi
+
+rm -fv "$mydir"/pear/Jm/Console/*
+rm -fv "$mydir"/pear/Jm/Console.php
+
+cp  -v "$mydir"/../lib/php/Jm/Console.php "$mydir"/pear/Jm/
+cp -av "$mydir"/../lib/php/Jm/Console/* "$mydir"/pear/Jm/Console
+
+cp -av "$mydir"/../tests "$mydir"/pear/
+cp -av "$mydir"/../examples "$mydir"/pear/
+
+mkdir -pv "$mydir"/pear/doc/Jm/Console
+cp -v "$mydir"/../README.md "$mydir"/pear/doc/Jm/Console
+
+# build the package
+cp -v "$mydir"/package.xml "$mydir"/pear
+cd "$mydir"/pear
+output=`pear package`
+cd -
+echo "$output"
+
+if [ "$?" != "0" ] ; then
+    echo 'Failed to build pear package. Cleaning up ... ';
+    rm -rfv "$mydir/pear"
+    echo 'Aborting'
+    exit 1
+fi
+
+package_file=`echo "$output" | grep 'done' | cut -d' ' -f2`
+
+cp -v "$mydir/pear/$package_file" "$mydir"
+
+# scp to metashock
+scp "$mydir/$package_file" metashock.de:~
+
+# use pirum to add the package to channel
+ssh metashock.de -- bash <<EOF
+    php pirum remove www/pear '$package_file'
+    php pirum add www/pear '$package_file'
+EOF
+
+#ssh metashock.de -- php pirum add www/pear "$package_file"
+

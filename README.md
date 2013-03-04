@@ -4,7 +4,6 @@ More and more developers rediscover the console as a development environment for
 
 Jm_Console enables PHP developers to create an impressive user interface for console applications in an easy to use way that is portable across different terminals and operating systems.
 
-
 ## Installation
 
 To install Jm_Console you can use the PEAR installer or get a tarball and install the files manually.
