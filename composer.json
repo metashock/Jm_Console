@@ -1,5 +1,5 @@
 {
-    "name"          : "metashock/Jm_Console",
+    "name"          : "metashock/jm_console",
     "version"       : "0.3.0",
     "license"       : "BSD-3",
     "description"   : "Jm_Console is a library for terminal colors",
