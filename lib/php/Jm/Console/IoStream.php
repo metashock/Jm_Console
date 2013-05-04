@@ -115,6 +115,17 @@ class Jm_Console_IoStream
 
 
     /**
+     * Flushes the buffers
+     *
+     * @return Jm_Console_IoStream
+     */
+    public function flush() {
+        fflush($this->fd);
+        return $this;
+    }
+
+
+    /**
      * The usage of terminal escape sequences is only meaningful if 
      * output goes to a terminal device. Every method of Jm_Console_Output 
      * that uses escape sequences checks this helper method before deciding 

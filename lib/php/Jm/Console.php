@@ -156,6 +156,22 @@ class Jm_Console
 
 
     /**
+     * Flushes the buffers stdin,out,err
+     *
+     * Note: f you want to flush only the buffer of one of them
+     * use `$console->stdout()->flush()` for example.
+     *
+     * @return Jm_Console
+     */
+    public function flush() {
+        $this->stdin->flush();
+        $this->stdout->flush();
+        $this->stderr->flush();
+        return $this;
+    }
+
+
+    /**
      * Writes $message to STDERR
      *
      * @param string                             $message The message to print
