@@ -1,8 +1,6 @@
 # J@m; Console
 
-More and more developers rediscover the console as a development environment for web applications or at least see them as useful when debugging or managing remote web applications per ssh. Therefore more and more applications for the commandline version of PHP are developed.
-
-Jm_Console enables PHP developers to create an impressive user interface for console applications in an easy to use way that is portable across different terminals and operating systems.
+ANSI console library for PHP
 
 ## Installation
 
