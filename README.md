@@ -201,7 +201,7 @@ function progressbar($now, $total, $w=35) {
 
 ## API documentation
 
-The API docs can be found here: http://metashock.de/docs/api/Jm/Console/index.html
+The API docs can be found here: http://metashock.de/docs/api/Jm/Console/index.xhtml
 
 
 
