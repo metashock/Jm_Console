@@ -14,7 +14,7 @@
     },
 
     "require"       : {
-        "pear-www.metashock.de/pear/jm_autoloader" : "*"
+        "metashock/jm_autoloader" : "*"
     }
 }
 
