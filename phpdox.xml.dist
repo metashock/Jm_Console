@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <phpdox xmlns="http://phpdox.de/config">
- <project name="jam" source="lib/php" workdir="build/phpdox">
+ <project name="Jm_Console" source="lib/php" workdir="build/phpdox">
   <collector publiconly="false">
    <include mask="*.php" />
   </collector>
