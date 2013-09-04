@@ -207,14 +207,16 @@ class Jm_Console
     }
 
 
-
     /**
-     * Reads a line from STDIN
+     * Reads a line from keyboard.
      *
-     * @return string
+     * @param integer $timeout  Secs to wait for input
+     * @param integer $utimeout uSecs to wait for input
+     *
+     * @return string|NULL
      */
-    public function readln() {
-        return $this->stdin->readln();
+    public function readln ($timeout = 0, $utimeout = 0) {
+        return $this->stdin->readln($timeout, $utimeout);
     }
 
     

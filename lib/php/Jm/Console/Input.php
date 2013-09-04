@@ -106,23 +106,29 @@ class Jm_Console_Input extends Jm_Console_IoStream
     /**
      * Reads a line from keyboard.
      *
+     * @param integer $timeout  Secs to wait for input
+     * @param integer $utimeout uSecs to wait for input
+     *
      * @return string|NULL
      */
-    public function readln () {
-        // read next line from stdin
-        $input = fgets($this->fd);
+    public function readln ($timeout = 0, $utimeout = 0) {
+        // prepare arguments for stream_select()
+        $read = array($this->fd);
+        $write = $except = array(); // we don't care about this
 
-        // EOF or an error?
-        if ($input === FALSE) {
+        // wait for maximal 5 seconds for input
+        if(stream_select($read, $write, $except, $timeout, $utimeout)) {
+            // read next line from stdin
+            $input = fgets($this->fd);
+        } else {
             // I see no way to test this reliable
             // @codeCoverageIgnoreStart
             return NULL;
             // @codeCoverageIgnoreEnd
         }
-        
+
         // remove the new line from input
         return str_replace(PHP_EOL, "", $input);
     }
-   
 }
 
