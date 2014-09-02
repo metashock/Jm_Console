@@ -234,6 +234,19 @@ class Jm_Console
 
 
     /**
+     * Erases the entire current line in output
+     *
+     * @return Jm_Console
+     *
+     * @throws Jm_Console_Output_Exception
+     */
+    public function eraseln() {
+        $this->stdout->eraseln();
+        return $this;
+    }
+
+
+    /**
      * Sets the cursor position
      *
      * @param integer $column The column
