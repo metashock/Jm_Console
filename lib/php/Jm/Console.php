@@ -92,7 +92,11 @@ class Jm_Console
      * @return Jm_Console
      */
     protected function __construct() {
-        $this->stdin  = new Jm_Console_Input();
+        if(function_exists('readline')) {
+            $this->stdin  = new Jm_Console_Input();
+        } else {
+            $this->stdin = new Jm_Console_Input_Realine();
+        }
         $this->stdout = new Jm_Console_Output(STDOUT);
         $this->stderr = new Jm_Console_Output(STDERR);
     }
@@ -215,8 +219,8 @@ class Jm_Console
      *
      * @return string|NULL
      */
-    public function readln ($timeout = 0, $utimeout = 0) {
-        return $this->stdin->readln($timeout, $utimeout);
+    public function readln ($timeout = 0, $utimeout = 0, $prompt = '') {
+        return $this->stdin->readln($timeout, $utimeout, $prompt);
     }
 
     
@@ -425,6 +429,36 @@ class Jm_Console
      */
     public function colorize($text, $style) {
         return $this->stdout()->colorize($text, $style);
+    }
+
+
+    /**
+     *
+     */
+    public function histadd($line) {
+        if(function_exists('readline_add_history')) {
+            readline_add_history($line);
+        }
+    }
+
+
+    /**
+     *
+     */
+    public function savehist($filename) {
+        if(function_exists('readline_write_history')) {
+            readline_write_history($filename);
+        }
+    }
+
+
+    /**
+     *
+     */
+    public function loadhist($filename) {
+        if(function_exists('readline_read_history')) {
+            readline_read_history($filename);
+        }
     }
 
 }

@@ -66,7 +66,7 @@ if(!defined('STDIN')) {
     // @codeCoverageIgnoreEnd
 }
 /**
- * Represents a console input stream
+ * Represents an input stream that makes usage of the leadline library.
  *
  * @TODO consider to make usage of readline if available
  *
@@ -81,61 +81,19 @@ if(!defined('STDIN')) {
  * @link      http://www.metashock.de/pear
  * @since     0.0.0
  */
-class Jm_Console_Input extends Jm_Console_IoStream
+class Jm_Console_Input_Readline extends Jm_Console_IoStream
 {
-
-    /**
-     * A reference to the underlying file descriptor
-     *
-     * @var resource
-     */
-    protected  $fd;
-
-
-    /**
-     * Constructor
-     *
-     * @throws InvalidArgumentException If something is wrong with STDIN.
-     * This exception was never observed.
-     */
-    public function __construct() {
-        parent::__construct(STDIN);
-    }
-
 
     /**
      * Reads a line from keyboard.
      *
      * @param integer $timeout  Secs to wait for input
      * @param integer $utimeout uSecs to wait for input
-     * @param string  $prompt   prompt to display
      *
      * @return string|NULL
      */
-    public function readln ($timeout = 0, $utimeout = 0, $prompt = '') {
-
-        if(function_exists('readline')) {
-            $line = readline($prompt);
-            readline_add_history($line);
-            return $line;
-        }
-
-        // prepare arguments for stream_select()
-        $read = array($this->fd);
-        $write = $except = array(); // we don't care about this
-
-        if(stream_select($read, $write, $except, $timeout, $utimeout)) {
-            // read next line from stdin
-            $input = fgets($this->fd);
-        } else {
-            // I see no way to test this reliable
-            // @codeCoverageIgnoreStart
-            return NULL;
-            // @codeCoverageIgnoreEnd
-        }
-
-        // remove the new line from input
-        return str_replace(PHP_EOL, "", $input);
+    public function readln ($timeout = 0, $utimeout = 0) {
+        return readline();
     }
 }
 
